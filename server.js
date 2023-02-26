@@ -1,8 +1,11 @@
+import bodyParser from 'body-parser';
 import express from 'express';
 
 const router = express.Router();
 const app = express();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(router);
 
 router.get('/message', (req, res) => {
@@ -10,13 +13,11 @@ router.get('/message', (req, res) => {
 })
 
 router.post('/message', (req, res) => {
+  console.log(req.query);
+  console.log(req.body);
   res.send('Message added');
 })
 
-// app.use('/', (req, res) => {
-//   console.group('Root');
-//   res.send('Hi!');
-//   console.groupEnd('Root');
-// })
+
 
 app.listen(3000, () => console.log('App listening on port 3000...'));
