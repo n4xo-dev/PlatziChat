@@ -23,8 +23,10 @@ router.post('/message', (req, res) => {
     response.error(req, res, 'ERROR');
   else
     response.success(req, res, 'Message added', 201);
-})
+});
 
+
+app.use('/app', express.static('public'));
 
 
 app.listen(3000, () => console.log('App listening on port 3000...'));
