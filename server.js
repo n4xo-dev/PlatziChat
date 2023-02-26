@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser';
 import express from 'express';
+import * as response from './network/response.js'
 
 const router = express.Router();
 const app = express();
@@ -13,13 +14,15 @@ router.get('/message', (req, res) => {
   res.header({
     'custom-header': 'Custom value',
   });
-  res.send('Messages list');
+  response.success(req, res, 'Message list');
 })
 
 router.post('/message', (req, res) => {
   console.log(req.query);
-  console.log(req.body);
-  res.status(201).send({error: '', message: 'Message added'});
+  if (req.query.error)
+    response.error(req, res, 'ERROR');
+  else
+    response.success(req, res, 'Message added', 201);
 })
 
 
