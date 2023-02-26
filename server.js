@@ -19,7 +19,7 @@ router.get('/message', (req, res) => {
 router.post('/message', (req, res) => {
   console.log(req.query);
   console.log(req.body);
-  res.send('Message added');
+  res.status(201).send({error: '', message: 'Message added'});
 })
 
 
