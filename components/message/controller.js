@@ -1,7 +1,9 @@
+import * as store from './store.js';
+
 
 export function addMessage(user, message) {
   return new Promise((resolve, reject) => {
-    console.group('Controller addMessage()')
+    console.group('Controller addMessage()');
     
     if (!user || !message) {
       console.error('[messageController] Missing user or message');
@@ -15,10 +17,18 @@ export function addMessage(user, message) {
       date: new Date(),
     };
   
-    console.log({ fullMessage })
+    store.add(fullMessage);
 
     resolve(fullMessage);
-    console.groupEnd('Controller addMessage()')
+    console.groupEnd('Controller addMessage()');
   })
 
+}
+
+export function getMessages() {
+  return new Promise((resolve, reject) => resolve(store.list()));
+}
+
+export function persist() {
+  return new Promise((resolve, reject) => resolve(store.persist()));
 }
