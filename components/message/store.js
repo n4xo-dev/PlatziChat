@@ -1,28 +1,20 @@
-import fs from 'fs';
+import * as db from 'mongoose';
+import { model } from './model.js';
 
-const list = [];
-
-(async function loadDB() {
-  await fs.readFile('../../store.txt', (err, data) => {
-    if (err)
-      return;
-
-    const dataString = data.toString();
-    const parsedData = JSON.parse(dataString);
-    parsedData.forEach( msg => list.push(msg) );
-  })
-})();
+const dbURI = 'mongodb+srv://n4xo:9808@fcc-mongo-ilopezosa.zmzkq0a.mongodb.net/?retryWrites=true&w=majority';
+db.connect(dbURI, {
+  useNewUrlParser: true
+});
+console.log('[db] connected');
 
 function addMessage(message) {
-  list.push(message);
+  // list.push(message);
+  const myMessage = new model(message);
+  myMessage.save();
 }
 
 function getMessages() {
   return list;
-}
-
-function persist() {
-  fs.writeFileSync('../../store.txt', JSON.stringify(list, null, 2));
 }
 
 export {
@@ -31,5 +23,4 @@ export {
   // get
   // update
   // delete
-  persist,
 }
