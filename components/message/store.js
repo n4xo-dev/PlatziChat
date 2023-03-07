@@ -14,7 +14,7 @@ function addMessage(message) {
 }
 
 function getMessages() {
-  return list;
+  return model.find();
 }
 
 export {
