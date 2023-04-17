@@ -25,8 +25,19 @@ export function addMessage(user, message) {
 
 }
 
-export function getMessages() {
-  return new Promise((resolve, reject) => resolve(store.list()));
+export function getMessages(filterUser) {
+  return new Promise((resolve, reject) => resolve(store.list(filterUser)));
+}
+
+export function updateMessage(id, message) {
+  return new Promise(async (resolve, reject) => {
+    if (!id || !message) {
+      reject('Invalid data');
+      return false;
+    }
+    const result = await store.updateMessage(id, message);
+    resolve(result);
+  })
 }
 
 export function persist() {

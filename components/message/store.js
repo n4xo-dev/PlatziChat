@@ -8,13 +8,24 @@ db.connect(dbURI, {
 console.log('[db] connected');
 
 function addMessage(message) {
-  // list.push(message);
   const myMessage = new model(message);
   myMessage.save();
 }
 
-function getMessages() {
-  return model.find();
+function getMessages(filterUser) {
+  let filter = {};
+  if (filterUser) {
+    filter = { user: filterUser };
+  }
+  return model.find(filter);
+}
+
+export async function updateMessage(id, message) {
+  const foundMessage = await model.findOne({ _id: id });
+
+  foundMessage.message = message;
+  const newMessage = await foundMessage.save();
+  return newMessage;
 }
 
 export {
