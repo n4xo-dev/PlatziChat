@@ -22,11 +22,10 @@ export function addMessage(user, message) {
     resolve(fullMessage);
     console.groupEnd('Controller addMessage()');
   })
-
 }
 
 export function getMessages(filterUser) {
-  return new Promise((resolve, reject) => resolve(store.list(filterUser)));
+  return store.list(filterUser);
 }
 
 export function updateMessage(id, message) {
@@ -35,8 +34,20 @@ export function updateMessage(id, message) {
       reject('Invalid data');
       return false;
     }
-    const result = await store.updateMessage(id, message);
+    const result = await store.update(id, message);
     resolve(result);
+  })
+}
+
+export function deleteMessage(id) {
+  return new Promise((resolve, reject) => {
+    if (!id){
+      reject('Id invalido');
+      return;
+    }
+    store.remove(id)
+      .then(() => resolve())
+      .catch((e) => reject(e))
   })
 }
 

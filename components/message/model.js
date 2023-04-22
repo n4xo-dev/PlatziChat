@@ -3,7 +3,10 @@ import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
-  user: String,
+  user: {
+    type: Schema.ObjectId,
+    ref: 'User',
+  },
   message: {
     type: String,
     required: true,
@@ -11,4 +14,4 @@ const messageSchema = new Schema({
   date: Date,
 });
 
-export const model = mongoose.model("Messages", messageSchema);
+export const Model = mongoose.model("Messages", messageSchema);

@@ -24,6 +24,12 @@ router.patch('/:id', (req, res) => {
     .catch((e) => response.error(req, res, 'Error interno', 500, e));
 })
 
+router.delete('/:id', (req, res) => {
+  controller.deleteMessage(req.params.id)
+    .then(() => response.success(req, res, `Mensaje ${req.params.id} eliminado`))
+    .catch((e) => response.error(req, res, 'Error interno', 500, e))
+})
+
 router.post('/persist', (req, res) => {
   controller.persist()
     .then(() => response.success(req, res, 'DONE', 200))
