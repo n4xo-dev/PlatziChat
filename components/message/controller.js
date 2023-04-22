@@ -1,31 +1,39 @@
+import { socket } from '../../socket.js';
 import * as store from './store.js';
 
-
-export function addMessage(user, message) {
+export function addMessage(chat, user, message, file) {
   return new Promise((resolve, reject) => {
     console.group('Controller addMessage()');
     
-    if (!user || !message) {
+    if (!chat || !user || !message) {
       console.error('[messageController] Missing user or message');
       reject('Incorrect input!');
       return false;
     }
+
+    const fileUrl = (file)
+      ? 'http://localhost:3000/app/files/' + file.filename
+      : undefined;
   
     const fullMessage = {
+      chat,
       user,
       message,
       date: new Date(),
+      file: fileUrl
     };
   
     store.add(fullMessage);
+
+    socket.io.emit('message', fullMessage);
 
     resolve(fullMessage);
     console.groupEnd('Controller addMessage()');
   })
 }
 
-export function getMessages(filterUser) {
-  return store.list(filterUser);
+export function getMessages(filterChat) {
+  return store.list(filterChat);
 }
 
 export function updateMessage(id, message) {

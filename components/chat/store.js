@@ -5,8 +5,10 @@ export function add(users) {
   return myChat.save();
 }
 
-export function list() {
-  return Model.find().populate('users');
+export function list(userId) {
+  return Model.find(
+    (userId) ? { users: userId } : {}
+  ).populate('users');
 }
 
 export async function update(id, users) {

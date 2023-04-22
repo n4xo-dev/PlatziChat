@@ -14,8 +14,8 @@ export function addChat(users) {
   return store.add(chat);
 }
 
-export function getChats() {
-  return new Promise((resolve, reject) => resolve(store.list()));
+export function getChats(userId) {
+  return new Promise((resolve, reject) => resolve(store.list(userId)));
 }
 
 export function updateChat(id, users) {

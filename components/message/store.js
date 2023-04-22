@@ -5,10 +5,10 @@ export function add(message) {
   myMessage.save();
 }
 
-export function list(filterUser) {
+export function list(filterChat) {
   let filter = {};
-  if (filterUser) {
-    filter = { user: filterUser };
+  if (filterChat) {
+    filter = { chat: filterChat };
   }
   return Model.find(filter).populate('user');
 }

@@ -1,19 +1,23 @@
 import express from 'express';
+import multer from 'multer';
 import * as response from '../../network/response.js';
 import * as controller from './controller.js';
 
 export const router = express.Router();
 
+const upload = multer({
+  dest: 'public/files/',
+});
+
 router.get('/', (req, res) => {
-  const filterMessages = req.query.user || null;
+  const filterMessages = req.query.chat || null;
   controller.getMessages(filterMessages)
     .then(messageList => response.success(req, res, messageList, 200))
     .catch(err => response.error(req, res, 'err', 500));
 })
 
-router.post('/', (req, res) => {
-  
-  controller.addMessage(req.body.user, req.body.message)
+router.post('/', upload.single('file'), (req, res) => {
+  controller.addMessage(req.body.chat, req.body.user, req.body.message, req.file)
     .then(msg => response.success(req, res, `Message added: ${JSON.stringify(msg)}`, 201))
     .catch(err => response.error(req, res, err, 400));
 });

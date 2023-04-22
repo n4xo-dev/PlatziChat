@@ -4,8 +4,8 @@ import * as controller from './controller.js';
 
 export const router = express.Router();
 
-router.get('/', (req, res) => {
-  controller.getChats()
+router.get('/:userId', (req, res) => {
+  controller.getChats(req.params.userId)
     .then(chatList => response.success(req, res, chatList, 200))
     .catch(e => response.error(req, res, 'Error interno', 500, e));
 })
